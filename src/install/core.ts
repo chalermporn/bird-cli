@@ -2,7 +2,7 @@
 // Pure application logic. Depends ONLY on port interfaces.
 
 import type { FileSystemPort, ScriptInfo, UIPort } from "./ports.ts";
-import { multiSelect } from "../lib/multi-select.ts";
+import { multiSelect } from "../shared/multi-select.ts";
 
 export class InstallerApp {
   constructor(

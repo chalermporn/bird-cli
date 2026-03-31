@@ -1,4 +1,4 @@
-// lib/keys.ts — Shared keypress detection for raw terminal input
+// shared/keys.ts — Shared keypress detection for raw terminal input
 // Used by any module that needs interactive TUI input.
 
 export type Key = "UP" | "DOWN" | "SPACE" | "ENTER" | "ALL" | "QUIT" | "ESC" | "OTHER";

@@ -1,4 +1,4 @@
-// lib/colors.ts — Shared ANSI escape code constants
+// shared/colors.ts — Shared ANSI escape code constants
 // Single source of truth for terminal styling across all modules.
 
 export const RED = "\x1b[0;31m";

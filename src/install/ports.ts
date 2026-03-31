@@ -41,7 +41,7 @@ export interface FileSystemPort {
 
 // ─── UI Port ─────────────────────────────────────────────────────────────────
 // Abstracts all terminal display and input
-// Multi-select TUI is provided by lib/multi-select.ts
+// Multi-select TUI is provided by shared/multi-select.ts
 
 export interface UIPort {
   info(msg: string): void;

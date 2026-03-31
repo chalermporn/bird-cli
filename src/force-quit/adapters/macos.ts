@@ -1,8 +1,8 @@
-// force-quit/macos-adapter.ts — Hexagonal Architecture: System adapter for macOS
+// force-quit/adapters/macos.ts — Hexagonal Architecture: System adapter for macOS
 // Implements SystemPort using osascript, killall, pkill, and Bun.$ shell
 
 import { $ } from "bun";
-import type { ForceQuitResult, SystemPort } from "./ports.ts";
+import type { ForceQuitResult, SystemPort } from "../ports.ts";
 
 export class MacOSSystemAdapter implements SystemPort {
   async listApps(): Promise<string[]> {

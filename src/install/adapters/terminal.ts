@@ -1,8 +1,8 @@
-// install/terminal-adapter.ts — Hexagonal Architecture: Terminal UI adapter
+// install/adapters/terminal.ts — Hexagonal Architecture: Terminal UI adapter
 // Implements UIPort using shared lib for colors.
 
-import type { ScriptInfo, UIPort } from "./ports.ts";
-import { RED, GREEN, YELLOW, CYAN, BOLD, RESET } from "../lib/colors.ts";
+import type { ScriptInfo, UIPort } from "../ports.ts";
+import { RED, GREEN, YELLOW, CYAN, BOLD, RESET } from "../../shared/colors.ts";
 
 export class TerminalUIAdapter implements UIPort {
   info(msg: string): void {

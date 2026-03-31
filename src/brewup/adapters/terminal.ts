@@ -1,8 +1,8 @@
-// brewup/terminal-adapter.ts — Hexagonal Architecture: Terminal UI adapter
+// brewup/adapters/terminal.ts — Hexagonal Architecture: Terminal UI adapter
 // Implements UIPort using ANSI escape codes for colored output
 
-import type { PackageInfo, UIPort } from "./ports.ts";
-import { GREEN, BLUE, YELLOW, RED, BOLD, RESET } from "../lib/colors.ts";
+import type { PackageInfo, UIPort } from "../ports.ts";
+import { GREEN, BLUE, YELLOW, RED, BOLD, RESET } from "../../shared/colors.ts";
 
 const NC = RESET;
 

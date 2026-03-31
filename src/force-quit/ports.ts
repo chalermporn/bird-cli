@@ -30,7 +30,7 @@ export type ForceQuitResult =
 
 // ─── UI Port ─────────────────────────────────────────────────────────────────
 // Abstracts all user interaction (display, input)
-// Multi-select TUI is provided by lib/multi-select.ts
+// Multi-select TUI is provided by shared/multi-select.ts
 
 export interface UIPort {
   /** Show a styled message */
@@ -51,6 +51,6 @@ export interface UIPort {
   /** Show usage/help text */
   showUsage(cmd: string): void;
 
-  /** Show a bulleted list of app names */
+  /** Show a bulleted list with title */
   showBulletList(title: string, items: string[]): void;
 }

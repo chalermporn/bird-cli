@@ -3,9 +3,9 @@
 // Wires adapters → ports → core. No business logic here.
 
 import { basename, dirname } from "path";
-import { InstallerApp } from "./install/core.ts";
-import { LocalFSAdapter } from "./install/fs-adapter.ts";
-import { TerminalUIAdapter } from "./install/terminal-adapter.ts";
+import { InstallerApp } from "./src/install/core.ts";
+import { LocalFSAdapter } from "./src/install/adapters/fs.ts";
+import { TerminalUIAdapter } from "./src/install/adapters/terminal.ts";
 
 // ─── Assemble ────────────────────────────────────────────────────────────────
 const scriptDir = dirname(Bun.main);

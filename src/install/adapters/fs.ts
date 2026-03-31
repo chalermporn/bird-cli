@@ -1,10 +1,10 @@
-// install/fs-adapter.ts — Hexagonal Architecture: File system adapter
+// install/adapters/fs.ts — Hexagonal Architecture: File system adapter
 // Implements FileSystemPort using Bun.$ and Bun.file
 
 import { $ } from "bun";
 import { basename, dirname, resolve } from "path";
 import { readdir, symlink as fsSymlink, mkdir } from "node:fs/promises";
-import type { FileSystemPort, ScriptInfo } from "./ports.ts";
+import type { FileSystemPort, ScriptInfo } from "../ports.ts";
 
 export class LocalFSAdapter implements FileSystemPort {
   constructor(private readonly scriptDir: string) {}

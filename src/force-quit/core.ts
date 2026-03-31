@@ -2,7 +2,7 @@
 // Pure application logic. Depends ONLY on port interfaces — no Bun.$, no ANSI, no OS calls.
 
 import type { SystemPort, UIPort } from "./ports.ts";
-import { multiSelect } from "../lib/multi-select.ts";
+import { multiSelect } from "../shared/multi-select.ts";
 
 export class ForceQuitApp {
   constructor(

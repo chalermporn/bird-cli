@@ -1,7 +1,7 @@
-// brewup/file-logger-adapter.ts — Hexagonal Architecture: File-based logger adapter
+// brewup/adapters/file-logger.ts — Hexagonal Architecture: File-based logger adapter
 // Implements LoggerPort using Bun.file for log rotation and writing
 
-import type { LoggerPort } from "./ports.ts";
+import type { LoggerPort } from "../ports.ts";
 
 export class FileLoggerAdapter implements LoggerPort {
   constructor(private readonly logPath: string) {}

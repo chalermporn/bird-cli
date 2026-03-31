@@ -1,4 +1,4 @@
-// lib/multi-select.ts — Shared multi-select TUI component
+// shared/multi-select.ts — Shared multi-select TUI component
 // Reusable interactive picker with cursor navigation, toggle, and select-all.
 // Used by force-quit and install modules.
 

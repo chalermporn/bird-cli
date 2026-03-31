@@ -1,8 +1,8 @@
-// brewup/homebrew-adapter.ts — Hexagonal Architecture: Homebrew adapter
+// brewup/adapters/homebrew.ts — Hexagonal Architecture: Homebrew adapter
 // Implements PackageManagerPort using brew CLI via Bun.$
 
 import { $ } from "bun";
-import type { PackageInfo, PackageManagerPort } from "./ports.ts";
+import type { PackageInfo, PackageManagerPort } from "../ports.ts";
 
 const BREW = "/opt/homebrew/bin/brew";
 

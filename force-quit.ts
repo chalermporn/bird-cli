@@ -3,9 +3,9 @@
 // Wires adapters → ports → core. No business logic here.
 
 import { basename } from "path";
-import { ForceQuitApp } from "./force-quit/core.ts";
-import { MacOSSystemAdapter } from "./force-quit/macos-adapter.ts";
-import { TerminalUIAdapter } from "./force-quit/terminal-adapter.ts";
+import { ForceQuitApp } from "./src/force-quit/core.ts";
+import { MacOSSystemAdapter } from "./src/force-quit/adapters/macos.ts";
+import { TerminalUIAdapter } from "./src/force-quit/adapters/terminal.ts";
 
 // ─── Assemble ────────────────────────────────────────────────────────────────
 const system = new MacOSSystemAdapter();

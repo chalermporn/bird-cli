@@ -1,4 +1,4 @@
-// lib/terminal.ts — Shared terminal cursor control utilities
+// shared/terminal.ts — Shared terminal cursor control utilities
 
 export function hideCursor(): void {
   process.stdout.write("\x1b[?25l");

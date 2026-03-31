@@ -2,10 +2,10 @@
 // brewup.ts — Composition root (Hexagonal Architecture)
 // Wires adapters → ports → core. No business logic here.
 
-import { BrewUpApp } from "./brewup/core.ts";
-import { HomebrewAdapter } from "./brewup/homebrew-adapter.ts";
-import { FileLoggerAdapter } from "./brewup/file-logger-adapter.ts";
-import { TerminalUIAdapter } from "./brewup/terminal-adapter.ts";
+import { BrewUpApp } from "./src/brewup/core.ts";
+import { HomebrewAdapter } from "./src/brewup/adapters/homebrew.ts";
+import { FileLoggerAdapter } from "./src/brewup/adapters/file-logger.ts";
+import { TerminalUIAdapter } from "./src/brewup/adapters/terminal.ts";
 
 // ─── Assemble ────────────────────────────────────────────────────────────────
 const pm = new HomebrewAdapter();

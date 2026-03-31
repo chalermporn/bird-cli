@@ -1,9 +1,9 @@
-// force-quit/terminal-adapter.ts — Hexagonal Architecture: UI adapter for terminal
+// force-quit/adapters/terminal.ts — Hexagonal Architecture: UI adapter for terminal
 // Implements UIPort using shared lib for colors and readline for prompts.
 
 import { createInterface } from "readline";
-import type { UIPort } from "./ports.ts";
-import { RED, GREEN, YELLOW, CYAN, BOLD, RESET } from "../lib/colors.ts";
+import type { UIPort } from "../ports.ts";
+import { RED, GREEN, YELLOW, CYAN, BOLD, RESET } from "../../shared/colors.ts";
 
 export class TerminalUIAdapter implements UIPort {
   info(msg: string): void {
