@@ -4,7 +4,7 @@
 
 import { readKey } from "./keys.ts";
 import { hideCursor, showCursor } from "./terminal.ts";
-import { BOLD, CYAN, GREEN, RESET, CLEAR_LINE } from "./colors.ts";
+import { pc, CLEAR_LINE } from "./colors.ts";
 
 // ─── Options ─────────────────────────────────────────────────────────────────
 
@@ -40,30 +40,30 @@ export function renderMultiSelect(opts: {
   }
 
   process.stdout.write(
-    `${BOLD}${CYAN}╔══════════════════════════════════════╗${RESET}${CLEAR_LINE}\n`,
+    `${pc.bold(pc.cyan("╔══════════════════════════════════════╗"))}${CLEAR_LINE}\n`,
   );
   process.stdout.write(
-    `${BOLD}${CYAN}║  ${opts.title.padEnd(36)}║${RESET}${CLEAR_LINE}\n`,
+    `${pc.bold(pc.cyan(`║  ${opts.title.padEnd(36)}║`))}${CLEAR_LINE}\n`,
   );
   process.stdout.write(
-    `${BOLD}${CYAN}╚══════════════════════════════════════╝${RESET}${CLEAR_LINE}\n`,
+    `${pc.bold(pc.cyan("╚══════════════════════════════════════╝"))}${CLEAR_LINE}\n`,
   );
   process.stdout.write(
-    ` Selected: ${BOLD}${CYAN}${opts.selectedCount}${RESET} / ${opts.total}${CLEAR_LINE}\n`,
+    ` Selected: ${pc.bold(pc.cyan(String(opts.selectedCount)))} / ${opts.total}${CLEAR_LINE}\n`,
   );
 
   for (let j = 0; j < opts.total; j++) {
-    const ptr = j === opts.cursor ? `${CYAN}${opts.pointer}${RESET} ` : "  ";
-    const check = opts.selected[j] ? `${GREEN}●${RESET}` : "○";
-    const nameColor = opts.selected[j] ? GREEN : "";
+    const ptr = j === opts.cursor ? `${pc.cyan(opts.pointer)} ` : "  ";
+    const check = opts.selected[j] ? pc.green("●") : pc.dim("○");
+    const label = opts.selected[j] ? pc.green(opts.items[j]!) : opts.items[j];
     process.stdout.write(
-      `  ${ptr} ${check} ${nameColor}${opts.items[j]}${RESET}${CLEAR_LINE}\n`,
+      `  ${ptr} ${check} ${label}${CLEAR_LINE}\n`,
     );
   }
 
   process.stdout.write(`${CLEAR_LINE}\n`);
   process.stdout.write(
-    `  ${CYAN}↑↓${RESET} Move  ${CYAN}Space${RESET} Toggle  ${CYAN}a${RESET} All  ${CYAN}Enter${RESET} ${opts.confirmLabel}  ${CYAN}q${RESET} Quit${CLEAR_LINE}\n`,
+    `  ${pc.cyan("↑↓")} Move  ${pc.cyan("Space")} Toggle  ${pc.cyan("a")} All  ${pc.cyan("Enter")} ${opts.confirmLabel}  ${pc.cyan("q")} Quit${CLEAR_LINE}\n`,
   );
   process.stdout.write(`${CLEAR_LINE}\n`);
   process.stdout.write(`${CLEAR_LINE}\n`);

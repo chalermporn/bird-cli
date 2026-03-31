@@ -2,56 +2,56 @@
 // Implements UIPort using shared lib for colors.
 
 import type { ScriptInfo, UIPort } from "../ports.ts";
-import { RED, GREEN, YELLOW, CYAN, BOLD, RESET } from "../../shared/colors.ts";
+import { pc } from "../../shared/colors.ts";
 
 export class TerminalUIAdapter implements UIPort {
   info(msg: string): void {
-    console.log(`${BOLD}${msg}${RESET}`);
+    console.log(pc.bold(msg));
   }
 
   success(msg: string): void {
-    console.log(`${GREEN}✓ ${msg}${RESET}`);
+    console.log(pc.green(`✓ ${msg}`));
   }
 
   warn(msg: string): void {
-    console.log(`${YELLOW}${msg}${RESET}`);
+    console.log(pc.yellow(msg));
   }
 
   error(msg: string): void {
-    console.log(`${RED}✗ ${msg}${RESET}`);
+    console.log(pc.red(`✗ ${msg}`));
   }
 
   showUsage(cmd: string): void {
-    console.log(`${BOLD}Usage:${RESET}`);
-    console.log(`  ${cmd}              # Install all scripts to ~/bin`);
-    console.log(`  ${cmd} -i           # Interactive select — pick scripts to install`);
-    console.log(`  ${cmd} --uninstall  # Remove installed scripts`);
-    console.log(`  ${cmd} --list       # List what would be installed`);
-    console.log(`  ${cmd} -h           # Show this help`);
+    console.log(pc.bold("Usage:"));
+    console.log(`  ${cmd}              ${pc.dim("# Install all scripts to ~/bin")}`);
+    console.log(`  ${cmd} -i           ${pc.dim("# Interactive select — pick scripts to install")}`);
+    console.log(`  ${cmd} --uninstall  ${pc.dim("# Remove installed scripts")}`);
+    console.log(`  ${cmd} --list       ${pc.dim("# List what would be installed")}`);
+    console.log(`  ${cmd} -h           ${pc.dim("# Show this help")}`);
   }
 
   showScriptList(scripts: ScriptInfo[], installDir: string): void {
-    console.log(`${BOLD}Scripts to install:${RESET}`);
+    console.log(pc.bold("Scripts to install:"));
     console.log();
     for (const s of scripts) {
-      console.log(`  ${CYAN}•${RESET} ${s.name}  ← ${s.filename}`);
+      console.log(`  ${pc.cyan("•")} ${s.name}  ${pc.dim("←")} ${pc.dim(s.filename)}`);
     }
     console.log();
-    console.log(`  Install to: ${BOLD}${installDir}/${RESET}`);
+    console.log(`  Install to: ${pc.bold(`${installDir}/`)}`);
   }
 
   showInstallHeader(title: string): void {
-    console.log(`${BOLD}${CYAN}╔══════════════════════════════════════╗${RESET}`);
-    console.log(`${BOLD}${CYAN}║  ${title.padEnd(33)}║${RESET}`);
-    console.log(`${BOLD}${CYAN}╚══════════════════════════════════════╝${RESET}`);
+    console.log(pc.bold(pc.cyan("╔══════════════════════════════════════╗")));
+    console.log(pc.bold(pc.cyan(`║  ${title.padEnd(33)}║`)));
+    console.log(pc.bold(pc.cyan("╚══════════════════════════════════════╝")));
   }
 
   showInstalled(name: string, filename: string): void {
-    console.log(`  ${GREEN}✓${RESET} ${name}  → ${filename}`);
+    console.log(`  ${pc.green("✓")} ${name}  ${pc.dim("→")} ${pc.dim(filename)}`);
   }
 
   showRemoved(name: string): void {
-    console.log(`  ${RED}✗${RESET} Removed ${name}`);
+    console.log(`  ${pc.red("✗")} Removed ${name}`);
   }
 
   showInstallSummary(
@@ -61,19 +61,19 @@ export class TerminalUIAdapter implements UIPort {
   ): void {
     console.log();
     console.log(
-      `${GREEN}${BOLD}✓ Installed ${count} script(s) to ${installDir}${RESET}`,
+      pc.bold(pc.green(`✓ Installed ${count} script(s) to ${installDir}`)),
     );
     console.log();
-    console.log(`${BOLD}Now you can run from anywhere:${RESET}`);
+    console.log(pc.bold("Now you can run from anywhere:"));
     for (const name of names) {
-      console.log(`  ${CYAN}$${RESET} ${name}`);
+      console.log(`  ${pc.cyan("$")} ${name}`);
     }
     console.log();
   }
 
   showPathHint(shellRc: string): void {
     console.log(
-      `${YELLOW}⚠  Run: ${BOLD}source ${shellRc}${RESET}${YELLOW} to activate PATH${RESET}`,
+      pc.yellow(`⚠  Run: ${pc.bold(`source ${shellRc}`)} to activate PATH`),
     );
   }
 }
