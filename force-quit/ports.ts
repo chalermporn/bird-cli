@@ -29,9 +29,8 @@ export type ForceQuitResult =
   | { ok: false; reason: string };
 
 // ─── UI Port ─────────────────────────────────────────────────────────────────
-// Abstracts all user interaction (display, input, TUI rendering)
-
-export type Key = "UP" | "DOWN" | "SPACE" | "ENTER" | "ALL" | "QUIT" | "ESC" | "OTHER";
+// Abstracts all user interaction (display, input)
+// Multi-select TUI is provided by lib/multi-select.ts
 
 export interface UIPort {
   /** Show a styled message */
@@ -48,24 +47,6 @@ export interface UIPort {
 
   /** Prompt user for text input */
   prompt(question: string): Promise<string>;
-
-  /** Read a single keypress (for TUI) */
-  readKey(): Promise<Key>;
-
-  /** Hide/show terminal cursor */
-  hideCursor(): void;
-  showCursor(): void;
-
-  /** Render one frame of multi-select TUI */
-  renderMultiSelect(opts: {
-    items: string[];
-    cursor: number;
-    selected: boolean[];
-    total: number;
-    selectedCount: number;
-    isFirstDraw: boolean;
-    totalLines: number;
-  }): void;
 
   /** Show usage/help text */
   showUsage(cmd: string): void;

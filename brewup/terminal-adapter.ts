@@ -2,14 +2,9 @@
 // Implements UIPort using ANSI escape codes for colored output
 
 import type { PackageInfo, UIPort } from "./ports.ts";
+import { GREEN, BLUE, YELLOW, RED, BOLD, RESET } from "../lib/colors.ts";
 
-// ─── Colors ──────────────────────────────────────────────────────────────────
-const GREEN = "\x1b[0;32m";
-const BLUE = "\x1b[0;34m";
-const YELLOW = "\x1b[0;33m";
-const RED = "\x1b[0;31m";
-const BOLD = "\x1b[1m";
-const NC = "\x1b[0m";
+const NC = RESET;
 
 export class TerminalUIAdapter implements UIPort {
   showTitle(): void {

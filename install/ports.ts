@@ -41,8 +41,7 @@ export interface FileSystemPort {
 
 // ─── UI Port ─────────────────────────────────────────────────────────────────
 // Abstracts all terminal display and input
-
-export type Key = "UP" | "DOWN" | "SPACE" | "ENTER" | "ALL" | "QUIT" | "ESC" | "OTHER";
+// Multi-select TUI is provided by lib/multi-select.ts
 
 export interface UIPort {
   info(msg: string): void;
@@ -70,23 +69,4 @@ export interface UIPort {
 
   /** Show PATH activation hint */
   showPathHint(shellRc: string): void;
-
-  /** Hide/show terminal cursor */
-  hideCursor(): void;
-  showCursor(): void;
-
-  /** Read a single keypress */
-  readKey(): Promise<Key>;
-
-  /** Render one frame of multi-select TUI */
-  renderMultiSelect(opts: {
-    title: string;
-    items: string[];
-    cursor: number;
-    selected: boolean[];
-    total: number;
-    selectedCount: number;
-    isFirstDraw: boolean;
-    totalLines: number;
-  }): void;
 }

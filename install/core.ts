@@ -2,6 +2,7 @@
 // Pure application logic. Depends ONLY on port interfaces.
 
 import type { FileSystemPort, ScriptInfo, UIPort } from "./ports.ts";
+import { multiSelect } from "../lib/multi-select.ts";
 
 export class InstallerApp {
   constructor(
@@ -44,10 +45,13 @@ export class InstallerApp {
       (s) => `${s.name}  ← ${s.filename}`,
     );
 
-    const selectedIndices = await this.multiSelectPicker(
-      "📦 Select Scripts to Install   ",
-      displayNames,
-    );
+    const selectedIndices = await multiSelect({
+      title: "📦 Select Scripts to Install",
+      items: displayNames,
+      defaultSelected: true,
+      pointer: "➜",
+      confirmLabel: "Install",
+    });
 
     if (selectedIndices.length === 0) {
       this.ui.warn("No scripts selected.");
@@ -110,75 +114,6 @@ export class InstallerApp {
       this.ui.success(
         `PATH updated. Run source ${shellRc} or open a new terminal.`,
       );
-    }
-  }
-
-  // ─── Multi-select TUI ──────────────────────────────────────────────────
-
-  private async multiSelectPicker(
-    title: string,
-    items: string[],
-  ): Promise<number[]> {
-    const count = items.length;
-    let cursor = 0;
-    const selected = new Array<boolean>(count).fill(true); // default: all selected
-
-    this.ui.hideCursor();
-
-    const cleanup = () => this.ui.showCursor();
-    process.on("exit", cleanup);
-    process.on("SIGINT", () => { cleanup(); process.exit(0); });
-    process.on("SIGTERM", () => { cleanup(); process.exit(0); });
-
-    const totalLines = 4 + count + 5;
-    let firstDraw = true;
-
-    while (true) {
-      const selCount = selected.filter(Boolean).length;
-
-      this.ui.renderMultiSelect({
-        title,
-        items,
-        cursor,
-        selected,
-        total: count,
-        selectedCount: selCount,
-        isFirstDraw: firstDraw,
-        totalLines,
-      });
-      firstDraw = false;
-
-      const key = await this.ui.readKey();
-
-      switch (key) {
-        case "UP":
-          cursor = (cursor - 1 + count) % count;
-          break;
-        case "DOWN":
-          cursor = (cursor + 1) % count;
-          break;
-        case "SPACE":
-          selected[cursor] = !selected[cursor];
-          break;
-        case "ALL": {
-          const allOn = selected.every(Boolean);
-          selected.fill(!allOn);
-          break;
-        }
-        case "ENTER": {
-          this.ui.showCursor();
-          console.log();
-          return selected.reduce<number[]>((acc, sel, i) => {
-            if (sel) acc.push(i);
-            return acc;
-          }, []);
-        }
-        case "QUIT":
-        case "ESC":
-          this.ui.showCursor();
-          console.log();
-          return [];
-      }
     }
   }
 }

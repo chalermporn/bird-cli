@@ -2,6 +2,7 @@
 // Pure application logic. Depends ONLY on port interfaces — no Bun.$, no ANSI, no OS calls.
 
 import type { SystemPort, UIPort } from "./ports.ts";
+import { multiSelect } from "../lib/multi-select.ts";
 
 export class ForceQuitApp {
   constructor(
@@ -101,84 +102,28 @@ export class ForceQuitApp {
       process.exit(1);
     }
 
-    const count = apps.length;
-    let cursor = 0;
-    const selected = new Array<boolean>(count).fill(false);
+    const selectedIndices = await multiSelect({
+      title: "⚡ Force Quit — Multi Select",
+      items: apps,
+    });
 
-    this.ui.hideCursor();
-
-    const cleanup = () => this.ui.showCursor();
-    process.on("exit", cleanup);
-    process.on("SIGINT", () => { cleanup(); process.exit(0); });
-    process.on("SIGTERM", () => { cleanup(); process.exit(0); });
-
-    const totalLines = 4 + count + 5;
-    let firstDraw = true;
-
-    while (true) {
-      const selCount = selected.filter(Boolean).length;
-
-      this.ui.renderMultiSelect({
-        items: apps,
-        cursor,
-        selected,
-        total: count,
-        selectedCount: selCount,
-        isFirstDraw: firstDraw,
-        totalLines,
-      });
-      firstDraw = false;
-
-      const key = await this.ui.readKey();
-
-      switch (key) {
-        case "UP":
-          cursor = (cursor - 1 + count) % count;
-          break;
-        case "DOWN":
-          cursor = (cursor + 1) % count;
-          break;
-        case "SPACE":
-          selected[cursor] = !selected[cursor];
-          break;
-        case "ALL": {
-          const allOn = selected.every(Boolean);
-          selected.fill(!allOn);
-          break;
-        }
-        case "ENTER": {
-          this.ui.showCursor();
-
-          const toKill = apps.filter((_, i) => selected[i]);
-          if (toKill.length === 0) {
-            console.log();
-            this.ui.warn("No apps selected.");
-            process.exit(0);
-          }
-
-          console.log();
-          this.ui.showBulletList("Will force quit:", toKill);
-          console.log();
-
-          const confirm = await this.ui.prompt("Confirm? [y/N]: ");
-          if (confirm.toLowerCase() === "y") {
-            for (const app of toKill) {
-              await this.quitByName(app);
-            }
-          } else {
-            this.ui.warn("Cancelled.");
-          }
-          process.exit(0);
-          break;
-        }
-        case "QUIT":
-        case "ESC":
-          this.ui.showCursor();
-          console.log();
-          this.ui.warn("Cancelled.");
-          process.exit(0);
-          break;
-      }
+    if (selectedIndices.length === 0) {
+      this.ui.warn("No apps selected.");
+      process.exit(0);
     }
+
+    const toKill = selectedIndices.map((i) => apps[i]!);
+    this.ui.showBulletList("Will force quit:", toKill);
+    console.log();
+
+    const confirm = await this.ui.prompt("Confirm? [y/N]: ");
+    if (confirm.toLowerCase() === "y") {
+      for (const app of toKill) {
+        await this.quitByName(app);
+      }
+    } else {
+      this.ui.warn("Cancelled.");
+    }
+    process.exit(0);
   }
 }
