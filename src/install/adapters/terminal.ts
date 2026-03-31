@@ -2,56 +2,57 @@
 // Implements UIPort using shared lib for colors.
 
 import type { ScriptInfo, UIPort } from "../ports.ts";
-import { pc } from "../../shared/colors.ts";
+import { ok, err, warn, dim, heading, accent, accentBold, icons } from "../../shared/colors.ts";
 
 export class TerminalUIAdapter implements UIPort {
   info(msg: string): void {
-    console.log(pc.bold(msg));
+    console.log(heading(msg));
   }
 
   success(msg: string): void {
-    console.log(pc.green(`✓ ${msg}`));
+    console.log(ok(`${icons.ok} ${msg}`));
   }
 
   warn(msg: string): void {
-    console.log(pc.yellow(msg));
+    console.log(warn(`${icons.warn} ${msg}`));
   }
 
   error(msg: string): void {
-    console.log(pc.red(`✗ ${msg}`));
+    console.log(err(`${icons.fail} ${msg}`));
   }
 
   showUsage(cmd: string): void {
-    console.log(pc.bold("Usage:"));
-    console.log(`  ${cmd}              ${pc.dim("# Install all scripts to ~/bin")}`);
-    console.log(`  ${cmd} -i           ${pc.dim("# Interactive select — pick scripts to install")}`);
-    console.log(`  ${cmd} --uninstall  ${pc.dim("# Remove installed scripts")}`);
-    console.log(`  ${cmd} --list       ${pc.dim("# List what would be installed")}`);
-    console.log(`  ${cmd} -h           ${pc.dim("# Show this help")}`);
+    console.log(heading("USAGE"));
+    console.log(`  ${accent(cmd)}              ${dim('Install all scripts to ~/bin')}`);
+    console.log(`  ${accent(cmd)} -i           ${dim('Interactive select — pick scripts to install')}`);
+    console.log(`  ${accent(cmd)} --uninstall  ${dim('Remove installed scripts')}`);
+    console.log(`  ${accent(cmd)} --list       ${dim('List what would be installed')}`);
+    console.log(`  ${accent(cmd)} -h           ${dim('Show this help')}`);
   }
 
   showScriptList(scripts: ScriptInfo[], installDir: string): void {
-    console.log(pc.bold("Scripts to install:"));
+    console.log(heading("Scripts to install:"));
     console.log();
     for (const s of scripts) {
-      console.log(`  ${pc.cyan("•")} ${s.name}  ${pc.dim("←")} ${pc.dim(s.filename)}`);
+      console.log(`  ${accent(icons.bullet)} ${s.name}  ${dim(icons.arrowL)} ${dim(s.filename)}`);
     }
     console.log();
-    console.log(`  Install to: ${pc.bold(`${installDir}/`)}`);
+    console.log(`  ${dim('Install to:')} ${heading(`${installDir}/`)}`);
   }
 
   showInstallHeader(title: string): void {
-    console.log(pc.bold(pc.cyan("╔══════════════════════════════════════╗")));
-    console.log(pc.bold(pc.cyan(`║  ${title.padEnd(33)}║`)));
-    console.log(pc.bold(pc.cyan("╚══════════════════════════════════════╝")));
+    const w = 38;
+    console.log(accentBold(`┌${'─'.repeat(w)}┐`));
+    console.log(accentBold(`│`) + `  ${heading(title.padEnd(w - 2))}` + accentBold(`│`));
+    console.log(accentBold(`└${'─'.repeat(w)}┘`));
   }
 
   showInstalled(name: string, filename: string): void {
-    console.log(`  ${pc.green("✓")} ${name}  ${pc.dim("→")} ${pc.dim(filename)}`);
+    console.log(`  ${ok(icons.ok)} ${name}  ${dim(icons.arrow)} ${dim(filename)}`);
   }
 
   showRemoved(name: string): void {
-    console.log(`  ${pc.red("✗")} Removed ${name}`);
+    console.log(`  ${err(icons.fail)} ${dim('Removed')} ${name}`);
   }
 
   showInstallSummary(
@@ -61,19 +62,19 @@ export class TerminalUIAdapter implements UIPort {
   ): void {
     console.log();
     console.log(
-      pc.bold(pc.green(`✓ Installed ${count} script(s) to ${installDir}`)),
+      ok(`${icons.ok} Installed ${count} script(s) to ${installDir}`),
     );
     console.log();
-    console.log(pc.bold("Now you can run from anywhere:"));
+    console.log(heading("Now you can run from anywhere:"));
     for (const name of names) {
-      console.log(`  ${pc.cyan("$")} ${name}`);
+      console.log(`  ${dim('$')} ${accent(name)}`);
     }
     console.log();
   }
 
   showPathHint(shellRc: string): void {
     console.log(
-      pc.yellow(`⚠  Run: ${pc.bold(`source ${shellRc}`)} to activate PATH`),
+      warn(`${icons.warn}  Run: ${heading(`source ${shellRc}`)} to activate PATH`),
     );
   }
 }

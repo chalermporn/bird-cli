@@ -4,7 +4,7 @@
 
 import { readKey } from "./keys.ts";
 import { hideCursor, showCursor } from "./terminal.ts";
-import { pc, CLEAR_LINE } from "./colors.ts";
+import { pc, CLEAR_LINE, accentBold, accent, ok, dim, highlight, icons } from "./colors.ts";
 
 // ─── Options ─────────────────────────────────────────────────────────────────
 
@@ -39,23 +39,26 @@ export function renderMultiSelect(opts: {
     process.stdout.write(`\x1b[${opts.totalLines}A`);
   }
 
+  const w = 38;
   process.stdout.write(
-    `${pc.bold(pc.cyan("╔══════════════════════════════════════╗"))}${CLEAR_LINE}\n`,
+    `${accentBold(`┌${'─'.repeat(w)}┐`)}${CLEAR_LINE}\n`,
   );
   process.stdout.write(
-    `${pc.bold(pc.cyan(`║  ${opts.title.padEnd(36)}║`))}${CLEAR_LINE}\n`,
+    `${accentBold(`│`)}  ${pc.bold(pc.white(opts.title.padEnd(w - 2)))}${accentBold(`│`)}${CLEAR_LINE}\n`,
   );
   process.stdout.write(
-    `${pc.bold(pc.cyan("╚══════════════════════════════════════╝"))}${CLEAR_LINE}\n`,
+    `${accentBold(`└${'─'.repeat(w)}┘`)}${CLEAR_LINE}\n`,
   );
   process.stdout.write(
-    ` Selected: ${pc.bold(pc.cyan(String(opts.selectedCount)))} / ${opts.total}${CLEAR_LINE}\n`,
+    ` ${dim('Selected:')} ${accentBold(String(opts.selectedCount))} ${dim('/')} ${dim(String(opts.total))}${CLEAR_LINE}\n`,
   );
 
   for (let j = 0; j < opts.total; j++) {
-    const ptr = j === opts.cursor ? `${pc.cyan(opts.pointer)} ` : "  ";
-    const check = opts.selected[j] ? pc.green("●") : pc.dim("○");
-    const label = opts.selected[j] ? pc.green(opts.items[j]!) : opts.items[j];
+    const ptr = j === opts.cursor ? accent(`${icons.pointer} `) : "  ";
+    const check = opts.selected[j] ? ok(icons.on) : dim(icons.off);
+    const label = opts.selected[j]
+      ? highlight(opts.items[j]!)
+      : opts.items[j];
     process.stdout.write(
       `  ${ptr} ${check} ${label}${CLEAR_LINE}\n`,
     );
@@ -63,7 +66,7 @@ export function renderMultiSelect(opts: {
 
   process.stdout.write(`${CLEAR_LINE}\n`);
   process.stdout.write(
-    `  ${pc.cyan("↑↓")} Move  ${pc.cyan("Space")} Toggle  ${pc.cyan("a")} All  ${pc.cyan("Enter")} ${opts.confirmLabel}  ${pc.cyan("q")} Quit${CLEAR_LINE}\n`,
+    `  ${dim(`${icons.dot} ↑↓ Move  Space Toggle  a All  Enter ${opts.confirmLabel}  q Quit`)}${CLEAR_LINE}\n`,
   );
   process.stdout.write(`${CLEAR_LINE}\n`);
   process.stdout.write(`${CLEAR_LINE}\n`);

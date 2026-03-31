@@ -1,8 +1,11 @@
 {
   "name": "bird-cli",
+  "version": "1.0.0",
   "module": "bird-cli.ts",
   "type": "module",
-  "private": true,
+  "bin": {
+    "bird-cli": "bird-cli.ts"
+  },
   "scripts": {
     "dev": "bun --watch bird-cli.ts",
     "start": "bun bird-cli.ts",

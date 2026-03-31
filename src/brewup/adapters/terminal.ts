@@ -2,61 +2,61 @@
 // Implements UIPort using ANSI escape codes for colored output
 
 import type { PackageInfo, UIPort } from "../ports.ts";
-import { pc } from "../../shared/colors.ts";
+import { ok, err, warn, info, dim, heading, icons } from "../../shared/colors.ts";
 
 export class TerminalUIAdapter implements UIPort {
   showTitle(): void {
-    console.log(pc.magenta("🍺 Homebrew Update"));
+    console.log(heading("🍺 Homebrew Update"));
     console.log();
   }
 
   showInstalled(formulaeCount: number, caskCount: number): void {
     console.log(
-      `${pc.magenta("📋 Installed:")} ${formulaeCount} formulae, ${caskCount} casks`,
+      `${info("📋 Installed:")} ${formulaeCount} formulae, ${caskCount} casks`,
     );
   }
 
   showOutdated(formulae: PackageInfo[], casks: PackageInfo[]): void {
     const total = formulae.length + casks.length;
-    console.log(pc.yellow(`📦 Outdated: ${total}`));
+    console.log(warn(`📦 Outdated: ${total}`));
     if (formulae.length > 0) {
       console.log(
-        `   Formulae: ${formulae.map((f) => f.name).join(" ")}`,
+        `   Formulae: ${dim(formulae.map((f) => f.name).join(" "))}`,
       );
     }
     if (casks.length > 0) {
-      console.log(`   Casks:    ${casks.map((c) => c.name).join(" ")}`);
+      console.log(`   Casks:    ${dim(casks.map((c) => c.name).join(" "))}`);
     }
     console.log();
   }
 
   showUpToDate(): void {
-    console.log(pc.green("✓ Everything is up to date"));
+    console.log(ok(`${icons.ok} Everything is up to date`));
     console.log();
   }
 
   showSection(icon: string, label: string, count: number): void {
     console.log();
-    console.log(pc.magenta(`${icon} ${label} (${count})`));
+    console.log(info(`${icon} ${label} ${dim(`(${count})`)}`));
   }
 
-  showStep(stepNum: number, total: number, label: string, ok: boolean): void {
-    const prefix = pc.yellow(`[${stepNum}/${total}]`);
+  showStep(stepNum: number, total: number, label: string, isOk: boolean): void {
+    const prefix = warn(`[${stepNum}/${total}]`);
     console.log(`${prefix} ${label}`);
-    if (ok) {
-      console.log(`      ${pc.green("✓")} Done`);
+    if (isOk) {
+      console.log(`      ${ok(icons.ok)} ${dim("Done")}`);
     } else {
-      console.log(`      ${pc.red("✗")} Failed`);
+      console.log(`      ${err(icons.fail)} ${dim("Failed")}`);
     }
   }
 
-  showSummary(ok: number, fail: number): void {
+  showSummary(okCount: number, fail: number): void {
     console.log();
     if (fail === 0) {
-      console.log(pc.green(`✓ All done! (${ok} steps completed)`));
+      console.log(ok(`${icons.ok} All done! ${dim(`(${okCount} steps completed)`)}`));
     } else {
       console.log(
-        `${pc.yellow(`⚠ Done with issues: ${ok} ok,`)} ${pc.red(`${fail} failed`)}`,
+        `${warn(`${icons.warn} Done with issues:`)} ${ok(`${okCount} ok`)}${dim(",")} ${err(`${fail} failed`)}`,
       );
     }
   }
