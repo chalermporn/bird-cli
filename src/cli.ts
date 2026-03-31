@@ -7,6 +7,7 @@ import { run as install } from "./install/index.ts";
 import { pc, CLEAR_LINE, heading, accent, accentBold, ok, err, dim, highlight, icons } from "./shared/colors.ts";
 import { readKey } from "./shared/keys.ts";
 import { hideCursor, showCursor } from "./shared/terminal.ts";
+import { printLogo } from "./shared/logo.ts";
 
 // ─── Command registry ────────────────────────────────────────────────────────
 
@@ -40,8 +41,7 @@ const ICONS: Record<string, string> = {
 
 function showHelp(): void {
   console.log();
-  console.log(`  ${accentBold("🐦 bird-cli")}  ${dim("— Unified script toolkit")}`);
-  console.log();
+  printLogo();
   console.log(heading("  USAGE"));
   console.log();
   console.log(`    bird-cli ${accent("<command>")} [options]`);

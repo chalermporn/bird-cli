@@ -12,12 +12,15 @@
     "test": "bun test"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/figlet": "^1.7.0",
+    "ascii-logo-generator": "^1.0.0"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
+    "figlet": "^1.11.0",
     "picocolors": "^1.1.1"
   }
 }
