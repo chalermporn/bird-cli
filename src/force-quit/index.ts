@@ -10,7 +10,7 @@ export async function run(args: string[]): Promise<void> {
   const app = new ForceQuitApp(system, ui);
 
   if (args.length === 0) {
-    await app.interactivePicker();
+    await app.multiSelectPicker();
     return;
   }
 
