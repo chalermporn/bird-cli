@@ -1,11 +1,11 @@
 {
-  "name": "script-ts",
-  "module": "index.ts",
+  "name": "bird-cli",
+  "module": "bird-cli.ts",
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --watch index.ts",
-    "start": "bun index.ts",
+    "dev": "bun --watch bird-cli.ts",
+    "start": "bun bird-cli.ts",
     "test": "bun test"
   },
   "devDependencies": {
